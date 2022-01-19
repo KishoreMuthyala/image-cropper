@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import ImageForm from "./components/ImageForm";
+import Images from "./components/Images";
+import PreviewAndCrop from "./components/PreviewAndCrop";
+
+import ImageState from "./context/ImageState";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <ImageState>
+            <div className="container">
+                <ImageForm />
+                <p className="text-danger text-center"> </p>
+                <Images />
+            </div>
+            <PreviewAndCrop />
+        </ImageState>
+    );
 }
 
 export default App;
