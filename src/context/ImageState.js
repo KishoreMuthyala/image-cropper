@@ -7,10 +7,7 @@ const ImageState = (props) => {
         images: [],
         currentImage: null,
         croppedImage: null,
-        dimensions: {
-            width: 113,
-            height: 96,
-        },
+        dimensions: null,
         error: null,
         loading: false,
     };
@@ -72,7 +69,7 @@ const ImageState = (props) => {
         setState({ ...state, currentImage: val, croppedImage: val });
     };
     const setCroppedImage = (val) => {
-        setState({ ...state, croppedImage: val });
+        setState({ ...state, croppedImage: val, dimensions: null });
     };
 
     const setDimensions = (width, height) => {

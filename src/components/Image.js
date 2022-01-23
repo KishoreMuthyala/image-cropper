@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import ImageContext from "../context/imageContext";
 
 const Image = ({ image }) => {
-    const { setCurrent, deleteImage, setCroppedImage } =
+    const { setCurrent, deleteImage, setCroppedImage, setDimensions } =
         useContext(ImageContext);
 
     const Preview = () => {
@@ -22,12 +23,20 @@ const Image = ({ image }) => {
                 ></i>
             </div>
             <div className="prop">
-                <button className="btn btn-secondary" onClick={Preview}>
+                <Link
+                    to="/preview"
+                    className="btn btn-secondary"
+                    onClick={Preview}
+                >
                     Preview
-                </button>
-                <button className="btn btn-secondary ms-2" onClick={crop}>
+                </Link>
+                <Link
+                    to="/crop"
+                    className="btn btn-secondary ms-2"
+                    onClick={crop}
+                >
                     Crop
-                </button>
+                </Link>
             </div>
         </div>
     );
