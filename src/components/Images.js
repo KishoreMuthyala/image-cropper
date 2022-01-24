@@ -14,6 +14,8 @@ const Images = () => {
         <div className="images-container">
             {loading
                 ? "Loading..."
+                : images.length === 0
+                ? "No Images"
                 : images.map((img) => <Image key={img.id} image={img} />)}
         </div>
     );

@@ -58,22 +58,82 @@ const Crop = () => {
         }
 
         function mousemove(e) {
-            if (mainCropperRef.current.offsetWidth >= 50) {
+            let c = mainCropperRef.current.offsetWidth;
+            console.log(c);
+            if (c > 51) {
                 if (w === "left") {
-                    mainCropperRef.current.style[w] =
-                        width + (e.clientX - prevX) + "px";
+                    let wid = width + (e.clientX - prevX);
+
+                    if (wid >= 0) mainCropperRef.current.style[w] = wid + "px";
                 } else {
-                    mainCropperRef.current.style[w] =
-                        width - (e.clientX - prevX) + "px";
+                    let wid = width - (e.clientX - prevX);
+                    if (wid >= 0) mainCropperRef.current.style[w] = wid + "px";
                 }
             }
-            if (mainCropperRef.current.offsetHeight >= 50) {
+            if (mainCropperRef.current.offsetHeight > 51) {
                 if (h === "top") {
-                    mainCropperRef.current.style[h] =
-                        height + (e.clientY - prevY) + "px";
+                    let hei = height + (e.clientY - prevY);
+                    if (hei >= 0) mainCropperRef.current.style[h] = hei + "px";
                 } else {
-                    mainCropperRef.current.style[h] =
-                        height - (e.clientY - prevY) + "px";
+                    let hei = height - (e.clientY - prevY);
+                    if (hei >= 0) mainCropperRef.current.style[h] = hei + "px";
+                }
+            }
+        }
+    };
+
+    const cropper1 = (e, width_direction, height_direction) => {
+        let prevX = e.clientX;
+        let prevY = e.clientY;
+        let width;
+        let height, left, top;
+        width = mainCropperRef.current.offsetWidth;
+        left = mainCropperRef.current.offsetLeft;
+        height = mainCropperRef.current.offsetHeight;
+        top = mainCropperRef.current.offsetTop;
+        window.addEventListener("mousemove", mousemove);
+        mainCropperRef.current.addEventListener("mousemove", mousemove);
+
+        window.addEventListener("mouseup", mouseup);
+        mainCropperRef.current.addEventListener("mouseup", mouseup);
+
+        function mouseup() {
+            window.removeEventListener("mousemove", mousemove);
+            mainCropperRef.current.removeEventListener("mousemove", mousemove);
+            window.removeEventListener("mouseup", mouseup);
+            mainCropperRef.current.removeEventListener("mouseup", mouseup);
+        }
+
+        function mousemove(e) {
+            if (mainCropperRef.current.offsetWidth > 49) {
+                if (width_direction === "right") {
+                    let w = width + (e.clientX - prevX);
+                    if (w > 50) mainCropperRef.current.style.width = w + "px";
+                } else {
+                    let l = left + (e.clientX - prevX);
+                    if (l >= 0) mainCropperRef.current.style.left = l + "px";
+                    let w = width - (e.clientX - prevX);
+                    if (w > 50) mainCropperRef.current.style.width = w + "px";
+                }
+            }
+            if (mainCropperRef.current.offsetHeight > 49) {
+                if (height_direction === "bottom") {
+                    let h = height + (e.clientY - prevY);
+                    if (h >= 50) mainCropperRef.current.style.height = h + "px";
+                } else {
+                    if (width_direction === "right") {
+                        let t = top - (e.clientX - prevX);
+                        if (t >= 0) mainCropperRef.current.style.top = t + "px";
+                        let h = height + (e.clientX - prevX);
+                        if (h > 50)
+                            mainCropperRef.current.style.height = h + "px";
+                    } else {
+                        let t = top + (e.clientY - prevY);
+                        if (t >= 0) mainCropperRef.current.style.top = t + "px";
+                        let h = height - (e.clientX - prevX);
+                        if (h > 50)
+                            mainCropperRef.current.style.height = h + "px";
+                    }
                 }
             }
         }
@@ -128,19 +188,49 @@ const Crop = () => {
             <div
                 style={{
                     textAlign: "center",
-                    paddingTop: "20px",
+                    padding: "20px",
+                    display: "flex",
+                    justifyContent: "center",
                 }}
             >
-                <button
-                    className="btn btn-success"
-                    onClick={cropHandler}
-                    style={{ marginRight: "20px" }}
-                >
-                    Preview of the cropped Image
-                </button>
-                <button className="btn btn-primary" onClick={downloadHandler}>
-                    Download Image
-                </button>
+                <div>
+                    <button
+                        className="btn btn-success"
+                        onClick={cropHandler}
+                        style={{
+                            marginRight: "20px",
+
+                            zIndex: "1100",
+                        }}
+                    >
+                        Preview of the cropped Image
+                    </button>
+                </div>
+                <div>
+                    <button
+                        className="btn btn-primary"
+                        onClick={downloadHandler}
+                        style={{
+                            marginRight: "20px",
+
+                            zIndex: "1100",
+                        }}
+                    >
+                        Download Image
+                    </button>
+                </div>
+                <div>
+                    <button
+                        className="btn btn-secondary"
+                        style={{
+                            marginRight: "20px",
+                            zIndex: "1100",
+                        }}
+                        onClick={() => navigate("/")}
+                    >
+                        Go to Home
+                    </button>
+                </div>
             </div>
 
             {croppedImage && (
@@ -161,33 +251,28 @@ const Crop = () => {
                         <div className="cropper" ref={mainCropperRef}>
                             <div
                                 onMouseDown={(e) =>
-                                    cropper(e, "right", "bottom")
+                                    cropper1(e, "right", "bottom")
                                 }
                                 className="bottom-right"
                             ></div>
                             <div
-                                onMouseDown={(e) => cropper(e, "right", "top")}
+                                onMouseDown={(e) => cropper1(e, "right", "top")}
                                 className="top-right"
                             ></div>
                             <div
                                 onMouseDown={(e) =>
-                                    cropper(e, "left", "bottom")
+                                    cropper1(e, "left", "bottom")
                                 }
                                 className="bottom-left"
                             ></div>
                             <div
-                                onMouseDown={(e) => cropper(e, "left", "top")}
+                                onMouseDown={(e) => cropper1(e, "left", "top")}
                                 className="top-left"
                             ></div>
                         </div>
                     </div>
 
-                    <canvas
-                        className="mt-3"
-                        width="100"
-                        height="100"
-                        ref={CanvasRef}
-                    >
+                    <canvas className="mt-3" ref={CanvasRef}>
                         Doesn't support Canvas
                     </canvas>
                 </div>
