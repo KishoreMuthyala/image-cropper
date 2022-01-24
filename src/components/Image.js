@@ -1,9 +1,9 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import ImageContext from "../context/imageContext";
 
 const Image = ({ image }) => {
-    const { setCurrent, deleteImage, setCroppedImage, setDimensions } =
+    const { setCurrent, deleteImage, setCroppedImage } =
         useContext(ImageContext);
 
     const Preview = () => {

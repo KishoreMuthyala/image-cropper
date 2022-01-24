@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useRef } from "react/cjs/react.development";
+import React, { useContext, useRef } from "react";
+
 
 import ImageContext from "../context/imageContext";
 
 const ImageForm = () => {
-    const [file, setFile] = useState("");
+   
     const inputRef = useRef(null);
 
     const imageContext = useContext(ImageContext);
@@ -15,7 +15,7 @@ const ImageForm = () => {
         e.preventDefault();
 
         uploadImage(inputRef.current.files);
-        setFile(null);
+       
     };
     return (
         <form className="text-center pt-5 pb-5" onSubmit={clickHandler}>

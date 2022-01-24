@@ -6,7 +6,7 @@ import ImageContext from "../context/imageContext";
 const Crop = () => {
     const navigate = useNavigate();
     const imageContext = useContext(ImageContext);
-    const { setCurrent, croppedImage, setDimensions, dimensions } =
+    const { croppedImage, setDimensions } =
         imageContext;
     useEffect(() => {
         if (!croppedImage) {
@@ -21,66 +21,7 @@ const Crop = () => {
     const mainContainerRef = useRef(null);
     const CanvasRef = useRef(null);
 
-    const cropper = (e, w, h) => {
-        let prevX = e.clientX;
-        let prevY = e.clientY;
-        let width;
-        let height;
-
-        let rect = croppedImageContainerRef.current.getBoundingClientRect();
-        if (w === "left") {
-            width = mainCropperRef.current.offsetLeft;
-        } else {
-            width =
-                rect.width -
-                mainCropperRef.current.offsetLeft -
-                mainCropperRef.current.offsetWidth;
-        }
-        if (h === "top") {
-            height = mainCropperRef.current.offsetTop;
-        } else {
-            height =
-                rect.height -
-                mainCropperRef.current.offsetTop -
-                mainCropperRef.current.offsetHeight;
-        }
-        window.addEventListener("mousemove", mousemove);
-        mainCropperRef.current.addEventListener("mousemove", mousemove);
-
-        window.addEventListener("mouseup", mouseup);
-        mainCropperRef.current.addEventListener("mouseup", mouseup);
-
-        function mouseup() {
-            window.removeEventListener("mousemove", mousemove);
-            mainCropperRef.current.removeEventListener("mousemove", mousemove);
-            window.removeEventListener("mouseup", mouseup);
-            mainCropperRef.current.removeEventListener("mouseup", mouseup);
-        }
-
-        function mousemove(e) {
-            let c = mainCropperRef.current.offsetWidth;
-            console.log(c);
-            if (c > 51) {
-                if (w === "left") {
-                    let wid = width + (e.clientX - prevX);
-
-                    if (wid >= 0) mainCropperRef.current.style[w] = wid + "px";
-                } else {
-                    let wid = width - (e.clientX - prevX);
-                    if (wid >= 0) mainCropperRef.current.style[w] = wid + "px";
-                }
-            }
-            if (mainCropperRef.current.offsetHeight > 51) {
-                if (h === "top") {
-                    let hei = height + (e.clientY - prevY);
-                    if (hei >= 0) mainCropperRef.current.style[h] = hei + "px";
-                } else {
-                    let hei = height - (e.clientY - prevY);
-                    if (hei >= 0) mainCropperRef.current.style[h] = hei + "px";
-                }
-            }
-        }
-    };
+    
 
     const cropper1 = (e, width_direction, height_direction) => {
         let prevX = e.clientX;
